@@ -9,6 +9,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +30,9 @@ fun BoxScope.PriceAndButtonComponent(
     buttonText: String = "Add to Cart",
     onButtonClick: () -> Unit = {},
 ) {
+
+    var isBiggerThanOneLine by remember { mutableStateOf(false) }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.Companion.align(Alignment.BottomCenter)
@@ -38,7 +45,10 @@ fun BoxScope.PriceAndButtonComponent(
                     color = BlueRibbon
                 )
             ) {
-                append("Price: ")
+                if (isBiggerThanOneLine) {
+                    append("Price:\n")
+                } else append("Price: ")
+
             }
             withStyle(
                 style = SpanStyle(
@@ -50,7 +60,9 @@ fun BoxScope.PriceAndButtonComponent(
                 append("$price ₺")
             }
         }
-        Text(text = priceText, modifier = Modifier.weight(48f))
+        Text(text = priceText, modifier = Modifier.weight(48f), onTextLayout = {
+            isBiggerThanOneLine = it.lineCount > 1
+        })
 
         Button(
             modifier = Modifier
