@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -57,7 +58,8 @@ fun ProductCard(
                     contentDescription = "ProductCard image url",
                     modifier = Modifier
                         .size(150.dp)
-                        .background(Silver)
+                        .background(Silver),
+                    contentScale = ContentScale.FillBounds
                 )
                 Icon(
                     painter = painterResource(R.drawable.ic_favorite),
