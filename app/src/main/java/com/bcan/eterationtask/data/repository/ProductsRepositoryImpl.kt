@@ -5,8 +5,9 @@ import com.bcan.eterationtask.data.service.ProductsService
 import com.bcan.eterationtask.data.util.NetworkResult
 import com.bcan.eterationtask.data.util.sendRequestWithResponse
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class ProductsRepositoryImpl(
+class ProductsRepositoryImpl @Inject constructor(
     private val productsService: ProductsService
 ) : ProductsRepository {
     override suspend fun getProducts(): Flow<NetworkResult<List<ProductResponseModel>>> {
