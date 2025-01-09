@@ -10,7 +10,6 @@ import com.bcan.eterationtask.data.model.ProductResponseModelDao
 @Dao
 interface ProductDao {
 
-    // Ürünü ekle veya miktarını artır
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertProduct(product: ProductResponseModelDao)
 
@@ -26,7 +25,6 @@ interface ProductDao {
     @Query("SELECT * FROM product_table")
     suspend fun getAllProducts(): List<ProductResponseModelDao>
 
-    // Ürünü kontrol et (var mı yok mu)
     @Query("SELECT * FROM product_table WHERE id = :productId LIMIT 1")
     suspend fun getProductById(productId: String): ProductResponseModelDao?
 
