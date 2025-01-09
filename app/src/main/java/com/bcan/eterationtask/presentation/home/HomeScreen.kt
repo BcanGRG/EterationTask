@@ -59,7 +59,8 @@ fun HomeScreen(
                                 imageUrl = product?.image,
                                 price = product?.price,
                                 isFavorite = true,
-                                productName = product?.name
+                                productName = product?.name,
+                                onAddToCart = { viewModel.addProduct(product!!.toProductResponseModelDao()) }
                             )
                         }
                     }

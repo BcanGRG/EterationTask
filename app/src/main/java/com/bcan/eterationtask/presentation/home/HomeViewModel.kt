@@ -3,6 +3,7 @@ package com.bcan.eterationtask.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bcan.eterationtask.data.model.ProductResponseModel
+import com.bcan.eterationtask.data.model.ProductResponseModelDao
 import com.bcan.eterationtask.data.repository.ProductsRepository
 import com.bcan.eterationtask.data.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val productsRepository: ProductsRepository,
+    private val repository: ProductsRepository,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
@@ -32,7 +33,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getProducts() {
         viewModelScope.launch {
-            productsRepository.getProducts().collect { result ->
+            repository.getProducts().collect { result ->
                 when (result) {
                     is NetworkResult.OnLoading -> {
                         _uiState.update { state ->
@@ -65,6 +66,20 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+
+    fun addProduct(product: ProductResponseModelDao) {
+        viewModelScope.launch {
+            repository.addProduct(product)
+        }
+    }
+
+    fun deleteProduct(product: ProductResponseModelDao) {
+        viewModelScope.launch {
+            repository.deleteProduct(product)
+        }
+    }
+
 }
 
 data class HomeUiState(
