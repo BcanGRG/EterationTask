@@ -28,4 +28,13 @@ data class ProductResponseModel(
 
     @SerializedName("id")
     val id: String
-)
+) {
+    fun toProductResponseModelDao(): ProductResponseModelDao {
+        return ProductResponseModelDao(
+            id = id,
+            name = name,
+            price = price,
+            quantity = 1,
+        )
+    }
+}
