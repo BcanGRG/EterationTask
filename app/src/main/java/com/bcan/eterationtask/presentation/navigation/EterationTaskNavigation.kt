@@ -1,6 +1,5 @@
 package com.bcan.eterationtask.presentation.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
@@ -33,7 +32,10 @@ fun EterationTaskNavigation() {
     Scaffold(
         topBar = { TopAppBar(modifier = Modifier.height(0.dp), title = {}) },
         bottomBar = {
-            BottomAppBar(containerColor = Color.White, contentPadding = PaddingValues(0.dp)) {
+            BottomAppBar(
+                containerColor = Color.White,
+                modifier = Modifier.height(80.dp)
+            ) {
                 bottomNavDestinations.forEach { destination ->
                     NavigationBarItem(
                         selected = currentDestination?.hierarchy?.any {
