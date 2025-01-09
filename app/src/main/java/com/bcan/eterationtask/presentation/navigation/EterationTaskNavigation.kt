@@ -1,38 +1,64 @@
 package com.bcan.eterationtask.presentation.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import com.bcan.eterationtask.data.model.ProductResponseModel
-import com.bcan.eterationtask.presentation.detail.DetailScreen
-import com.bcan.eterationtask.presentation.home.HomeScreen
-import com.bcan.eterationtask.presentation.utils.CustomNavType
-import kotlin.reflect.typeOf
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EterationTaskNavigation() {
+
     val navController = rememberNavController()
+    val entry by navController.currentBackStackEntryAsState()
+    val currentDestination = entry?.destination
 
-    NavHost(
-        navController = navController,
-        startDestination = HomeRoute,
-    ) {
-        composable<HomeRoute> {
-            HomeScreen(
-                navigateToDetail = { navController.navigate(DetailRoute(it)) }
-            )
-        }
 
-        composable<DetailRoute>(
-            typeMap = mapOf(typeOf<ProductResponseModel?>() to CustomNavType.ProductType),
+    Scaffold(
+        topBar = { TopAppBar(modifier = Modifier.height(0.dp), title = {}) },
+        bottomBar = {
+            BottomAppBar(containerColor = Color.White, contentPadding = PaddingValues(0.dp)) {
+                bottomNavDestinations.forEach { destination ->
+                    NavigationBarItem(
+                        selected = currentDestination?.hierarchy?.any {
+                            it.hasRoute(destination.route::class)
+                        } ?: false,
+                        onClick = { navController.navigate(destination.route) },
+                        icon = {
+                            Icon(
+                                painter = painterResource(destination.icon),
+                                contentDescription = "Icon"
+                            )
+                        },
+                    )
+                }
+            }
+        }) {
+        NavHost(
+            modifier = Modifier.padding(it),
+            navController = navController,
+            startDestination = Graphs.HomeGraph,
         ) {
-            val arguments = it.toRoute<DetailRoute>()
-            DetailScreen(
-                product = arguments.product,
-                onBackClick = { navController.popBackStack() }
-            )
+            homeGraph(navController)
+            basketGraph()
+            favoriteGraph()
+            profileGraph()
         }
     }
 }
