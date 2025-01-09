@@ -72,7 +72,7 @@ fun ProductCard(
                 )
             }
             Text(
-                text = price.orEmpty(),
+                text = price.orEmpty() + " ₺",
                 fontWeight = FontWeight(500),
                 fontSize = 14.sp,
                 color = BlueRibbon,
