@@ -62,10 +62,11 @@ fun HomeScreen(
                             ProductCard(
                                 imageUrl = product?.image,
                                 price = product?.price,
-                                isFavorite = true,
+                                isFavorite = product?.isFavorite(uiState.favorites) ?: false,
                                 productName = product?.name,
                                 onClick = { navigateToDetail(product) },
-                                onAddToCart = { viewModel.addProduct(product!!.toProductResponseModelDao()) }
+                                onAddToCart = { viewModel.addProduct(product!!.toProductEntity()) },
+                                onClickFavorite = { viewModel.addOrRemoveFavorite(product!!.toFavoriteProductEntity()) }
                             )
                         }
                     }

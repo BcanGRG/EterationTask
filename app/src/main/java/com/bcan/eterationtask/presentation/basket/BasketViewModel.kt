@@ -2,7 +2,7 @@ package com.bcan.eterationtask.presentation.basket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bcan.eterationtask.data.domain.model.ProductResponseModelDao
+import com.bcan.eterationtask.data.domain.model.ProductEntity
 import com.bcan.eterationtask.data.domain.usecase.DecreaseProductQuantityUseCase
 import com.bcan.eterationtask.data.domain.usecase.GetBasketProductsUseCase
 import com.bcan.eterationtask.data.domain.usecase.IncreaseProductQuantityUseCase
@@ -21,7 +21,7 @@ class BasketViewModel @Inject constructor(
     private val increaseProductQuantityUseCase: IncreaseProductQuantityUseCase,
     private val decreaseProductQuantityUseCase: DecreaseProductQuantityUseCase,
 ) : ViewModel() {
-    private val _products = MutableStateFlow<List<ProductResponseModelDao>>(emptyList())
+    private val _products = MutableStateFlow<List<ProductEntity>>(emptyList())
     val products = _products.onStart {
         loadProducts()
     }.stateIn(

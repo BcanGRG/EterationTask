@@ -2,6 +2,7 @@ package com.bcan.eterationtask.di
 
 import android.content.Context
 import androidx.room.Room
+import com.bcan.eterationtask.data.local.FavoriteProductDao
 import com.bcan.eterationtask.data.local.ProductDao
 import com.bcan.eterationtask.data.local.ProductDatabase
 import dagger.Module
@@ -20,11 +21,16 @@ object DatabaseModule {
             context,
             ProductDatabase::class.java,
             "product_database"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
     fun provideProductDao(database: ProductDatabase): ProductDao {
         return database.productDao()
+    }
+
+    @Provides
+    fun provideFavoriteProductDao(database: ProductDatabase): FavoriteProductDao {
+        return database.favoriteProductDao()
     }
 }

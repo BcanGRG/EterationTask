@@ -41,6 +41,7 @@ fun ProductCard(
     productName: String?,
     onClick: () -> Unit = {},
     onAddToCart: () -> Unit = {},
+    onClickFavorite: () -> Unit = {},
 ) {
     Card(
         modifier = Modifier.clickable { onClick() },
@@ -67,7 +68,7 @@ fun ProductCard(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(6.dp)
-                        .clickable { },
+                        .clickable { onClickFavorite() },
                     tint = if (isFavorite) SelectiveYellow else Alto
                 )
             }

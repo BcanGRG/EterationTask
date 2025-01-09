@@ -27,14 +27,30 @@ data class ProductResponseModel(
     val brand: String,
 
     @SerializedName("id")
-    val id: String
+    val id: String,
+
+    val isFavorite: Boolean = false,
 ) {
-    fun toProductResponseModelDao(): ProductResponseModelDao {
-        return ProductResponseModelDao(
+
+    fun isFavorite(list: List<FavoriteProductEntity?>?): Boolean =
+        list?.any { it?.id == id } ?: false
+
+    fun toProductEntity(): ProductEntity {
+        return ProductEntity(
             id = id,
             name = name,
             price = price,
             quantity = 1,
         )
+    }
+
+    fun toFavoriteProductEntity(): FavoriteProductEntity {
+        return FavoriteProductEntity(
+            id = id,
+            name = name,
+            price = price,
+            image = image
+        )
+
     }
 }

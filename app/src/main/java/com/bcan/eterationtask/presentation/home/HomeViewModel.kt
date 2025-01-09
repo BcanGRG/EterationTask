@@ -2,9 +2,12 @@ package com.bcan.eterationtask.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bcan.eterationtask.data.domain.model.FavoriteProductEntity
+import com.bcan.eterationtask.data.domain.model.ProductEntity
 import com.bcan.eterationtask.data.domain.model.ProductResponseModel
-import com.bcan.eterationtask.data.domain.model.ProductResponseModelDao
+import com.bcan.eterationtask.data.domain.usecase.AddOrRemoveFavoriteUseCase
 import com.bcan.eterationtask.data.domain.usecase.AddProductUseCase
+import com.bcan.eterationtask.data.domain.usecase.GetFavoritesUseCase
 import com.bcan.eterationtask.data.repository.ProductsRepository
 import com.bcan.eterationtask.data.util.NetworkResult
 import com.bcan.eterationtask.presentation.ui.snackbar.SnackbarController
@@ -23,15 +26,18 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: ProductsRepository,
     private val addProductUseCase: AddProductUseCase,
+    private val addOrRemoveFavoriteUseCase: AddOrRemoveFavoriteUseCase,
+    private val getFavoritesUseCase: GetFavoritesUseCase
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> =
         _uiState.onStart {
             getProducts()
+            getFavorites()
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(3000),
+            started = SharingStarted.WhileSubscribed(1000),
             initialValue = _uiState.value
         )
 
@@ -72,7 +78,7 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun addProduct(product: ProductResponseModelDao) {
+    fun addProduct(product: ProductEntity) {
         viewModelScope.launch {
             addProductUseCase(product)
             SnackbarController.sendEvent(
@@ -83,10 +89,24 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getFavorites() {
+        viewModelScope.launch {
+            _uiState.update { state -> state.copy(favorites = getFavoritesUseCase()) }
+        }
+    }
+
+    fun addOrRemoveFavorite(product: FavoriteProductEntity) {
+        viewModelScope.launch {
+            addOrRemoveFavoriteUseCase(product)
+            getFavorites()
+        }
+    }
+
 }
 
 data class HomeUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
-    val products: List<ProductResponseModel?>? = null
+    val products: List<ProductResponseModel?>? = null,
+    val favorites: List<FavoriteProductEntity?>? = null
 )
