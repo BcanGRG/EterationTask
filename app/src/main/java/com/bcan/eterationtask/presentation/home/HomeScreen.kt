@@ -21,12 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bcan.eterationtask.data.model.ProductResponseModel
 import com.bcan.eterationtask.presentation.home.components.HomeTopAppBar
 import com.bcan.eterationtask.presentation.home.components.ProductCard
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigateToDetail: (ProductResponseModel?) -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -60,6 +62,7 @@ fun HomeScreen(
                                 price = product?.price,
                                 isFavorite = true,
                                 productName = product?.name,
+                                onClick = { navigateToDetail(product) },
                                 onAddToCart = { viewModel.addProduct(product!!.toProductResponseModelDao()) }
                             )
                         }
