@@ -10,5 +10,7 @@ interface ProductsRepository {
     suspend fun getProducts(): Flow<NetworkResult<List<ProductResponseModel>>>
     suspend fun addProduct(product: ProductResponseModelDao)
     suspend fun deleteProduct(product: ProductResponseModelDao)
-    suspend fun getAllProducts(): List<ProductResponseModelDao>
+    suspend fun increaseQuantity(productId: String, amount: Int)
+    suspend fun decreaseQuantity(productId: String, amount: Int)
+    suspend fun getBasketProducts(): Flow<List<ProductResponseModelDao>>
 }
