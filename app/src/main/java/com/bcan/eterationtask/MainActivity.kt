@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import com.bcan.eterationtask.presentation.home.HomeScreen
+import com.bcan.eterationtask.presentation.navigation.EterationTaskNavigation
 import com.bcan.eterationtask.ui.theme.EterationTaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             EterationTaskTheme {
                 window.statusBarColor = Color.White.toArgb()
-                HomeScreen()
+                EterationTaskNavigation()
             }
         }
     }
