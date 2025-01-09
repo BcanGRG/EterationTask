@@ -14,3 +14,22 @@ object BasketRoute
 
 @Serializable
 object FavoriteRoute
+
+@Serializable
+object ProfileRoute
+
+@Serializable
+sealed class Graphs {
+    @Serializable
+    data object HomeGraph : Graphs()
+
+    @Serializable
+    data object BasketGraph : Graphs()
+
+    @Serializable
+    data object FavoriteGraph : Graphs()
+
+    @Serializable
+    data object ProfileGraph : Graphs()
+}
+
