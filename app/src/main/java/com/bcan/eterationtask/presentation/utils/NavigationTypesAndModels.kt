@@ -3,7 +3,7 @@ package com.bcan.eterationtask.presentation.utils
 import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
-import com.bcan.eterationtask.data.model.ProductResponseModel
+import com.bcan.eterationtask.data.domain.model.ProductResponseModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bcan.eterationtask.R
-import com.bcan.eterationtask.data.model.ProductResponseModel
+import com.bcan.eterationtask.data.domain.model.ProductResponseModel
 import com.bcan.eterationtask.presentation.detail.components.DetailTopAppBar
 import com.bcan.eterationtask.presentation.ui.PriceAndButtonComponent
 import com.bcan.eterationtask.ui.theme.Alto

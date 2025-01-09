@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
-import com.bcan.eterationtask.data.model.ProductResponseModel
+import com.bcan.eterationtask.data.domain.model.ProductResponseModel
 import com.bcan.eterationtask.presentation.basket.BasketScreen
 import com.bcan.eterationtask.presentation.detail.DetailScreen
 import com.bcan.eterationtask.presentation.favorite.FavoriteScreen

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bcan.eterationtask.data.model.ProductResponseModel
+import com.bcan.eterationtask.data.domain.model.ProductResponseModel
 import com.bcan.eterationtask.presentation.home.components.HomeTopAppBar
 import com.bcan.eterationtask.presentation.home.components.ProductCard
 

@@ -1,4 +1,4 @@
-package com.bcan.eterationtask.data.model
+package com.bcan.eterationtask.data.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package com.bcan.eterationtask.data.model
+package com.bcan.eterationtask.data.domain.model
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable

@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.bcan.eterationtask.data.model.ProductResponseModelDao
+import com.bcan.eterationtask.data.domain.model.ProductResponseModelDao
 
 @Dao
 interface ProductDao {
