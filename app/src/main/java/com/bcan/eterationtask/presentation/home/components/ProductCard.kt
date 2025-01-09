@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -38,19 +37,21 @@ fun ProductCard(
     imageUrl: String?,
     price: String?,
     isFavorite: Boolean = false,
-    productName: String?
+    productName: String?,
+    onClick: () -> Unit = {},
+    onAddToCart: () -> Unit = {},
 ) {
     Card(
-        modifier = Modifier.width(170.dp),
+        modifier = Modifier.clickable { onClick() },
         shape = RectangleShape,
         colors = CardDefaults.cardColors().copy(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(
             modifier = Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp)
+            verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
-            Box {
+            Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 AsyncImage(
                     model = imageUrl,
                     contentDescription = "ProductCard image url",
@@ -63,7 +64,8 @@ fun ProductCard(
                     contentDescription = "Favorite",
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(6.dp).clickable {  },
+                        .padding(6.dp)
+                        .clickable { },
                     tint = if (isFavorite) SelectiveYellow else Alto
                 )
             }
@@ -71,7 +73,7 @@ fun ProductCard(
                 text = price.orEmpty(),
                 fontWeight = FontWeight(500),
                 fontSize = 14.sp,
-                color = BlueRibbon
+                color = BlueRibbon,
             )
             Text(
                 text = productName.orEmpty(),
@@ -81,7 +83,7 @@ fun ProductCard(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {},
+                onClick = onAddToCart,
                 colors = ButtonDefaults.buttonColors(containerColor = BlueRibbon),
                 shape = RoundedCornerShape(4.dp),
                 contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
