@@ -2,8 +2,9 @@ package com.bcan.eterationtask.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bcan.eterationtask.data.model.ProductResponseModel
-import com.bcan.eterationtask.data.model.ProductResponseModelDao
+import com.bcan.eterationtask.data.domain.model.ProductResponseModel
+import com.bcan.eterationtask.data.domain.model.ProductResponseModelDao
+import com.bcan.eterationtask.data.domain.usecase.AddProductUseCase
 import com.bcan.eterationtask.data.repository.ProductsRepository
 import com.bcan.eterationtask.data.util.NetworkResult
 import com.bcan.eterationtask.presentation.ui.snackbar.SnackbarController
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: ProductsRepository,
+    private val addProductUseCase: AddProductUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
@@ -72,18 +74,12 @@ class HomeViewModel @Inject constructor(
 
     fun addProduct(product: ProductResponseModelDao) {
         viewModelScope.launch {
-            repository.addProduct(product)
+            addProductUseCase(product)
             SnackbarController.sendEvent(
                 event = SnackbarEvent(
                     message = "Ürün sepete eklendi.",
                 )
             )
-        }
-    }
-
-    fun deleteProduct(product: ProductResponseModelDao) {
-        viewModelScope.launch {
-            repository.deleteProduct(product)
         }
     }
 
