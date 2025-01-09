@@ -6,6 +6,8 @@ import com.bcan.eterationtask.data.model.ProductResponseModel
 import com.bcan.eterationtask.data.model.ProductResponseModelDao
 import com.bcan.eterationtask.data.repository.ProductsRepository
 import com.bcan.eterationtask.data.util.NetworkResult
+import com.bcan.eterationtask.presentation.ui.snackbar.SnackbarController
+import com.bcan.eterationtask.presentation.ui.snackbar.SnackbarEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -71,6 +73,11 @@ class HomeViewModel @Inject constructor(
     fun addProduct(product: ProductResponseModelDao) {
         viewModelScope.launch {
             repository.addProduct(product)
+            SnackbarController.sendEvent(
+                event = SnackbarEvent(
+                    message = "Ürün sepete eklendi.",
+                )
+            )
         }
     }
 
