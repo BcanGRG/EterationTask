@@ -16,6 +16,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -40,6 +42,27 @@ class HomeViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(1000),
             initialValue = _uiState.value
         )
+
+    private val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
+
+    private val _products: MutableStateFlow<List<ProductResponseModel?>?> =
+        MutableStateFlow(emptyList())
+
+    val products = searchText
+        .combine(_products) { text, products ->
+            if (text.isBlank()) products
+            else products?.filter { it?.name?.contains(text, ignoreCase = true) == true }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(4000),
+            initialValue = _products.value
+        )
+
+    fun onSearchTextChange(text: String) {
+        _searchText.value = text
+    }
 
     private fun getProducts() {
         viewModelScope.launch {
@@ -68,9 +91,9 @@ class HomeViewModel @Inject constructor(
                             state.copy(
                                 isLoading = false,
                                 errorMessage = null,
-                                products = result.data
                             )
                         }
+                        _products.emit(result.data)
                     }
                 }
             }
@@ -107,6 +130,5 @@ class HomeViewModel @Inject constructor(
 data class HomeUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
-    val products: List<ProductResponseModel?>? = null,
     val favorites: List<FavoriteProductEntity?>? = null
 )
