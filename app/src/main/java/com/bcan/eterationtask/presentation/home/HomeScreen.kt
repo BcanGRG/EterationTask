@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +28,8 @@ import com.bcan.eterationtask.presentation.home.components.HomeTopAppBar
 import com.bcan.eterationtask.presentation.home.components.ProductCard
 import com.bcan.eterationtask.presentation.ui.animations.EmptyBasketAnimation
 import com.bcan.eterationtask.presentation.ui.animations.LoadingAnimation
+import com.bcan.eterationtask.presentation.ui.snackbar.SnackbarController
+import com.bcan.eterationtask.presentation.ui.snackbar.SnackbarEvent
 
 @Composable
 fun HomeScreen(
@@ -35,6 +38,14 @@ fun HomeScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    uiState.errorMessage?.let { message ->
+        LaunchedEffect(message) {
+            SnackbarController.sendEvent(
+                event = SnackbarEvent(message)
+            )
+        }
+    }
 
     Scaffold(
         topBar = { HomeTopAppBar() },
