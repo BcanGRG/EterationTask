@@ -25,6 +25,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bcan.eterationtask.data.domain.model.ProductResponseModel
 import com.bcan.eterationtask.presentation.home.components.HomeTopAppBar
 import com.bcan.eterationtask.presentation.home.components.ProductCard
+import com.bcan.eterationtask.presentation.ui.animations.EmptyBasketAnimation
+import com.bcan.eterationtask.presentation.ui.animations.LoadingAnimation
 
 @Composable
 fun HomeScreen(
@@ -44,15 +46,20 @@ fun HomeScreen(
                 .fillMaxSize(),
             color = Color.White
         ) {
+
+            if (uiState.isLoading) LoadingAnimation()
+
+            if (!uiState.isLoading && uiState.products.isNullOrEmpty()) EmptyBasketAnimation()
+
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                Spacer(modifier = Modifier.height(14.dp))
-                Text(
-                    text = "Filters:",
-                    fontWeight = FontWeight(500),
-                    fontSize = 18.sp
-                )
-                Spacer(modifier = Modifier.height(24.dp))
                 if (uiState.products.isNullOrEmpty().not()) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(
+                        text = "Filters:",
+                        fontWeight = FontWeight(500),
+                        fontSize = 18.sp
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         horizontalArrangement = Arrangement.spacedBy(21.dp),
