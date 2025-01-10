@@ -1,5 +1,6 @@
 package com.bcan.eterationtask.data.util
 
+import android.database.sqlite.SQLiteException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -10,10 +11,10 @@ import java.io.IOException
 fun <T> sendRequestWithResponse(serviceCall: suspend () -> Response<T>) =
     flow {
         emit(NetworkResult.OnLoading)
-        emit(safeApiCallWithoutBase { serviceCall() })
+        emit(safeApiCallWithResponse { serviceCall() })
     }.flowOn(Dispatchers.IO)
 
-private suspend fun <T> safeApiCallWithoutBase(
+private suspend fun <T> safeApiCallWithResponse(
     apiCall: suspend () -> Response<T>
 ): NetworkResult<T> {
     return try {
@@ -28,5 +29,19 @@ private suspend fun <T> safeApiCallWithoutBase(
             is HttpException -> NetworkResult.OnError(throwable.message)
             else -> NetworkResult.OnError(throwable.message)
         }
+    }
+}
+
+suspend fun <T> safeCall(
+    block: suspend () -> T
+): T {
+    return try {
+        block()
+    } catch (e: IOException) {
+        throw IOException("Veri yüklenirken bir hata oluştu: ${e.message}")
+    } catch (e: SQLiteException) {
+        throw SQLiteException("Veritabanı işlemi sırasında bir hata oluştu: ${e.message}")
+    } catch (e: Exception) {
+        throw Exception("Beklenmeyen bir hata oluştu: ${e.message}")
     }
 }
