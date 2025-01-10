@@ -1,4 +1,4 @@
-package com.bcan.eterationtask.presentation.navigation
+package com.bcan.eterationtask.presentation.utils.navigation
 
 import com.bcan.eterationtask.R
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package com.bcan.eterationtask.presentation.navigation
+package com.bcan.eterationtask.presentation.utils.navigation
 
 import com.bcan.eterationtask.data.domain.model.ProductResponseModel
 import kotlinx.serialization.Serializable

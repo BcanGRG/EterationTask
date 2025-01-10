@@ -1,4 +1,4 @@
-package com.bcan.eterationtask.presentation.navigation
+package com.bcan.eterationtask.presentation.utils.navigation
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
