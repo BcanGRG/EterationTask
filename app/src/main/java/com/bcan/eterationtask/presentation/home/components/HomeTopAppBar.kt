@@ -12,11 +12,11 @@ import com.bcan.eterationtask.ui.theme.BlueRibbon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopAppBar() {
+fun HomeTopAppBar(title: String = "E-Market") {
     TopAppBar(
         title = {
             Text(
-                "E-Market",
+                text = title,
                 color = Color.White,
                 fontSize = 24.sp,
                 fontWeight = FontWeight(800)
